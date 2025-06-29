@@ -29,7 +29,7 @@ Follow these steps to set up and run the project on your local machine:
 1. Clone the Repository (If you haven't already)
 If you already have the files locally, you can skip this step. If you are getting the project from a Git repository, clone it:
 
-git clone https://github.com/franbucho/UFCTrack.git
+git clone [https://github.com/franbucho/UFCTrack.git](https://github.com/franbucho/UFCTrack.git)
 cd UFCTrack
 
 2. Create a Virtual Environment (Recommended)
@@ -67,7 +67,7 @@ python app.py
 7. Access the Application
 Open your web browser and visit:
 
-http://127.0.0.1:5000/
+[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 You should now be able to use the UFC Tracker!
 
