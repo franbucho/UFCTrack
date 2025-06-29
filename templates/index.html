@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFC Tracker Avanzado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1c1c1c;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        h1, h2 {
+            color: #e74c3c;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            background-color: #333;
+            color: #fff;
+            flex-grow: 1;
+            min-width: 200px; /* Asegura un ancho mínimo para móviles */
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        .results-container {
+            width: 100%;
+            max-width: 800px; /* Ancho máximo para el contenido principal */
+            margin-top: 20px;
+        }
+        .category {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #2c2c2c;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .category h3 {
+            color: #1abc9c;
+            margin-top: 0;
+            border-bottom: 2px solid #3a3a3a;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .fighter {
+            margin-bottom: 15px; /* Espacio entre peleadores */
+            padding: 10px;
+            background-color: #3a3a3a;
+            border-radius: 8px;
+        }
+        .fighter a {
+            color: #1abc9c;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            display: block; /* Para que el enlace ocupe toda la línea */
+            margin-bottom: 5px;
+        }
+        .fighter a:hover {
+            text-decoration: underline;
+        }
+        .fighter small {
+            color: #ccc;
+            font-size: 0.9em;
+            line-height: 1.5;
+            display: block;
+        }
+        .event-box {
+            background-color: #34495e;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+        .event-box h2 {
+            margin-top: 0;
+            color: #f39c12;
+            border-bottom: 2px solid #4a657c;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .event {
+            margin-bottom: 15px;
+            background-color: #4a657c;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .event strong {
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+        /* Media Queries para responsividad */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            input[type="text"], button {
+                width: 100%;
+                margin-left: 0;
+            }
+            form {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>UFC Tracker 🥋</h1>
+
+    <form method="POST">
+        <input type="text" name="nombre" placeholder="Buscar peleador...">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <div class="results-container">
+        {% if resultados %}
+            <h2>Resultados de la búsqueda:</h2>
+            {% for categoria, peleadores in resultados.items() %}
+                <div class="category">
+                    <h3>{{ categoria }}</h3>
+                    {% for peleador in peleadores %}
+                        <div class="fighter">
+                            <a href="{{ peleador.url }}" target="_blank">{{ peleador.name }}</a><br>
+                            <small>
+                                🏆 Récord: {{ peleador.record }} | 📏 Altura: {{ peleador.altura }} |
+                                ⚖️ Peso: {{ peleador.peso }} | 🤜 Alcance: {{ peleador.alcance }}
+                            </small>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% elif request.method == 'POST' %}
+            <p>No se encontraron resultados para esa búsqueda. Intenta con otro nombre.</p>
+        {% endif %}
+    </div>
+
+    <div class="event-box">
+        <h2>📅 Próximos Eventos UFC</h2>
+        {% for event in eventos %}
+            <div class="event">
+                <strong>{{ event.nombre }}</strong> – {{ event.fecha }}<br>
+                {{ event.pelea }}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
